@@ -32,16 +32,9 @@ export default function Home() {
         </div>
 
         <div className="w-full flex flex-col items-center space-y-8 sm:space-y-12">
-          <FeatureTooltip
-            id="search-section"
-            title="Search Tools"
-            description="Search by hashtag or username to find creators that match your needs."
-            position="top"
-          >
-            <div className="w-full flex justify-center">
-              <SearchSection />
-            </div>
-          </FeatureTooltip>
+          <div className="w-full flex justify-center">
+            <SearchSection />
+          </div>
 
           <div className="w-full max-w-6xl">
             <div className="flex items-center justify-between mb-6">
@@ -49,10 +42,6 @@ export default function Home() {
                 <Flame className="h-5 w-5 text-primary" />
                 Top Creators
               </h2>
-              <button className="text-sm text-primary flex items-center hover:text-primary/80 transition-colors duration-200">
-                View all
-                <MoveUpRight className="ml-1 h-4 w-4" />
-              </button>
             </div>
 
             <ResultsSection />

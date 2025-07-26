@@ -7,6 +7,7 @@ import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
 import ProgressIndicator from "../progress-indicator"
+import { Check } from "lucide-react"
 
 const categories = [
   "Fashion",
@@ -47,78 +48,107 @@ export default function InterestsStep() {
     show: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.05,
+        staggerChildren: 0.06,
       },
     },
   }
 
   const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    show: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1, 
+      transition: { 
+        type: "spring" as const, 
+        stiffness: 300, 
+        damping: 20 
+      } 
+    },
   }
 
   return (
-    <div className="p-8 md:p-10">
+    <div className="p-8 md:p-10 flex flex-col max-h-[90vh] overflow-y-auto">
       <ProgressIndicator />
 
-      <div className="mb-8">
+      <div className="text-center mb-8">
         <motion.h2
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="text-2xl font-bold mb-3"
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="text-3xl font-bold mb-3 tracking-tight"
         >
-          What are you interested in?
+          What are your interests?
         </motion.h2>
         <motion.p
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          className="text-muted-foreground text-base"
+          transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+          className="text-muted-foreground text-lg max-w-md mx-auto"
         >
-          Select categories that align with your brand to help us find relevant creators.
+          Select categories that align with your brand to find relevant creators.
         </motion.p>
       </div>
 
-      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-primary mb-4">
-        Select at least one category to continue
-      </motion.p>
-
-      <motion.div variants={container} initial="hidden" animate="show" className="flex flex-wrap gap-2 mb-10">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="show"
+        className="flex-grow flex flex-wrap gap-3 justify-center content-center mb-8"
+      >
         {categories.map((category) => (
           <motion.div key={category} variants={item}>
-            <Badge
-              variant={selectedInterests.includes(category) ? "default" : "outline"}
-              className={cn(
-                "cursor-pointer transition-all duration-200 rounded-full text-sm py-2 px-4",
-                selectedInterests.includes(category)
-                  ? "bg-primary/10 hover:bg-primary/20 text-primary border-primary/20"
-                  : "hover:bg-muted",
-              )}
+            <button
               onClick={() => toggleInterest(category)}
+              className={cn(
+                "group relative rounded-full border px-5 py-2.5 text-sm font-medium transition-all duration-200 outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary",
+                selectedInterests.includes(category)
+                  ? "bg-primary text-primary-foreground border-primary"
+                  : "bg-background hover:bg-muted border-border",
+              )}
             >
-              {category}
-            </Badge>
+              <span
+                className={cn(
+                  "absolute left-2.5 top-1/2 -translate-y-1/2 transition-all duration-200",
+                  selectedInterests.includes(category)
+                    ? "opacity-100 scale-100"
+                    : "opacity-0 scale-50 -translate-x-2",
+                )}
+              >
+                <Check className="h-4 w-4" />
+              </span>
+              <span
+                className={cn(
+                  "transition-all duration-200",
+                  selectedInterests.includes(category) ? "pl-5" : "pl-0",
+                )}
+              >
+                {category}
+              </span>
+            </button>
           </motion.div>
         ))}
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3 }}
-        className="flex justify-between"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, ease: "easeOut" }}
+        className="flex items-center justify-between pt-6 border-t border-border"
       >
-        <Button variant="ghost" onClick={prevStep} className="rounded-full text-base">
+        <Button variant="ghost" onClick={prevStep} className="rounded-full text-base font-medium">
           Back
         </Button>
-        <Button
-          onClick={handleNext}
-          className="rounded-full bg-primary hover:bg-primary/90 text-white px-8 text-base font-medium"
-          disabled={selectedInterests.length === 0}
-        >
-          Continue
-        </Button>
+        <div className="flex items-center gap-4">
+          <p className="text-sm text-muted-foreground">{selectedInterests.length} selected</p>
+          <Button
+            onClick={handleNext}
+            className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 text-base font-medium shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105"
+            disabled={selectedInterests.length === 0}
+          >
+            Continue
+          </Button>
+        </div>
       </motion.div>
     </div>
   )

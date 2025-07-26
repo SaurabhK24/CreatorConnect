@@ -5,39 +5,45 @@ import { useOnboarding } from "../onboarding-provider"
 import { motion } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useState } from "react"
-import { Check } from "lucide-react"
+import { Check, Target, Zap, Megaphone, Star, Users, Award } from "lucide-react"
 import ProgressIndicator from "../progress-indicator"
 
 const goalOptions = [
   {
     id: "brand-awareness",
     title: "Brand Awareness",
-    description: "Increase visibility and recognition for your brand",
+    description: "Increase visibility and recognition",
+    icon: <Target className="h-5 w-5" />,
   },
   {
     id: "product-launch",
     title: "Product Launch",
-    description: "Promote a new product or service to the market",
+    description: "Promote a new product or service",
+    icon: <Megaphone className="h-5 w-5" />,
   },
   {
     id: "content-creation",
     title: "Content Creation",
-    description: "Get high-quality content created for your brand",
+    description: "Source high-quality, unique content",
+    icon: <Zap className="h-5 w-5" />,
   },
   {
     id: "sales-conversion",
     title: "Sales & Conversion",
     description: "Drive direct sales and conversions",
+    icon: <Star className="h-5 w-5" />,
   },
   {
     id: "community-building",
     title: "Community Building",
-    description: "Build an engaged community around your brand",
+    description: "Grow an engaged, loyal following",
+    icon: <Users className="h-5 w-5" />,
   },
   {
     id: "industry-authority",
     title: "Industry Authority",
-    description: "Establish your brand as an authority in your industry",
+    description: "Become a leader in your niche",
+    icon: <Award className="h-5 w-5" />,
   },
 ]
 
@@ -65,91 +71,87 @@ export default function GoalsStep() {
   }
 
   const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, y: 20, scale: 0.95 },
+    show: { opacity: 1, y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 300, damping: 20 } },
   }
 
   return (
-    <div className="p-8 md:p-10">
+    <div className="p-8 md:p-10 flex flex-col max-h-[90vh] overflow-y-auto">
       <ProgressIndicator />
 
-      <div className="mb-8">
+      <div className="text-center mb-8">
         <motion.h2
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3 }}
-          className="text-2xl font-bold mb-3"
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="text-3xl font-bold mb-3 tracking-tight"
         >
-          What are your goals?
+          What are your campaign goals?
         </motion.h2>
         <motion.p
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.3, delay: 0.1 }}
-          className="text-muted-foreground text-base"
+          transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+          className="text-muted-foreground text-lg max-w-md mx-auto"
         >
-          Select what you're looking to achieve with creator collaborations.
+          Select what you hope to achieve with creator collaborations.
         </motion.p>
       </div>
-
-      <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-sm text-primary mb-4">
-        Select at least one goal to continue
-      </motion.p>
 
       <motion.div
         variants={container}
         initial="hidden"
         animate="show"
-        className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-10"
+        className="flex-grow grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8"
       >
         {goalOptions.map((goal) => (
           <motion.div key={goal.id} variants={item}>
-            <div
-              className={cn(
-                "border rounded-xl p-4 cursor-pointer transition-all duration-200",
-                selectedGoals.includes(goal.id)
-                  ? "border-primary bg-primary/5 hover:bg-primary/10"
-                  : "border-border hover:border-primary/20 hover:bg-muted/50",
-              )}
+            <button
               onClick={() => toggleGoal(goal.id)}
+              className={cn(
+                "w-full h-full text-left rounded-2xl border p-5 transition-all duration-200 relative overflow-hidden group outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary",
+                selectedGoals.includes(goal.id)
+                  ? "border-primary bg-primary/10"
+                  : "border-border hover:border-primary/30 hover:bg-muted/50",
+              )}
             >
-              <div className="flex items-start gap-3">
-                <div
-                  className={cn(
-                    "mt-0.5 w-5 h-5 rounded-full flex items-center justify-center border transition-colors",
-                    selectedGoals.includes(goal.id)
-                      ? "border-primary bg-primary text-primary-foreground"
-                      : "border-muted-foreground",
-                  )}
-                >
-                  {selectedGoals.includes(goal.id) && <Check className="h-3 w-3" />}
-                </div>
-                <div>
-                  <h3 className="font-medium text-base">{goal.title}</h3>
-                  <p className="text-sm text-muted-foreground">{goal.description}</p>
-                </div>
+              <div
+                className={cn(
+                  "absolute -top-3 -right-3 w-12 h-12 rounded-full bg-primary text-primary-foreground flex items-center justify-center transition-all duration-300 transform scale-0 group-hover:scale-100",
+                  selectedGoals.includes(goal.id) ? "scale-100" : "",
+                )}
+              >
+                <Check className="h-6 w-6" />
               </div>
-            </div>
+              <div className="flex flex-col h-full">
+                <div className="mb-3 text-primary">{goal.icon}</div>
+                <h3 className="font-semibold text-base mb-1">{goal.title}</h3>
+                <p className="text-sm text-muted-foreground flex-grow">{goal.description}</p>
+              </div>
+            </button>
           </motion.div>
         ))}
       </motion.div>
 
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.5 }}
-        className="flex justify-between"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.3, ease: "easeOut" }}
+        className="flex items-center justify-between pt-6 border-t border-border"
       >
-        <Button variant="ghost" onClick={prevStep} className="rounded-full text-base">
+        <Button variant="ghost" onClick={prevStep} className="rounded-full text-base font-medium">
           Back
         </Button>
-        <Button
-          onClick={handleNext}
-          className="rounded-full bg-primary hover:bg-primary/90 text-white px-8 text-base font-medium"
-          disabled={selectedGoals.length === 0}
-        >
-          Continue
-        </Button>
+        <div className="flex items-center gap-4">
+          <p className="text-sm text-muted-foreground">{selectedGoals.length} selected</p>
+          <Button
+            onClick={handleNext}
+            className="rounded-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 text-base font-medium shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all duration-300 transform hover:scale-105"
+            disabled={selectedGoals.length === 0}
+          >
+            Continue
+          </Button>
+        </div>
       </motion.div>
     </div>
   )

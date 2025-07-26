@@ -2,10 +2,10 @@ import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Instagram, Youtube, TwitchIcon, Twitter, MessageSquare, BookmarkPlus, ExternalLink, Flame } from "lucide-react"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card"
+import { Instagram, Youtube, Twitch, Twitter, MessageSquare, BookmarkPlus, ExternalLink, Flame } from "lucide-react"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { cn } from "@/lib/utils"
+import TikTokIcon from "./tiktok-icon"
 
 interface Creator {
   id: number
@@ -38,11 +38,11 @@ export default function CreatorCard({ creator }: CreatorCardProps) {
       case "youtube":
         return <Youtube {...iconProps} />
       case "tiktok":
-        return <ExternalLink {...iconProps} />
+        return <TikTokIcon {...iconProps} />
       case "twitter":
         return <Twitter {...iconProps} />
       case "twitch":
-        return <TwitchIcon {...iconProps} />
+        return <Twitch {...iconProps} />
       default:
         return null
     }
@@ -79,68 +79,24 @@ export default function CreatorCard({ creator }: CreatorCardProps) {
       <CardContent className="p-0 flex-grow">
         <div className="p-4 sm:p-6">
           <div className="flex items-center gap-3 sm:gap-4 mb-4">
-            <HoverCard>
-              <HoverCardTrigger asChild>
-                <div className="relative cursor-pointer transition-transform duration-200 transform hover:scale-105 flex-shrink-0">
-                  <div
-                    className={cn(
-                      "absolute inset-0 rounded-full bg-gradient-to-br opacity-0 hover:opacity-100 transition-opacity duration-300",
-                      getPlatformColor(creator.platform),
-                    )}
-                  ></div>
-                  <Image
-                    src={creator.avatar || "/placeholder.svg"}
-                    alt={creator.name}
-                    width={50}
-                    height={50}
-                    className="rounded-full border border-border object-cover relative z-10 sm:w-[60px] sm:h-[60px] w-[50px] h-[50px]"
-                  />
-                  <div className="absolute -bottom-1 -right-1 bg-card rounded-full p-1 border border-border shadow-sm z-20">
-                    {getPlatformIcon(creator.platform)}
-                  </div>
-                </div>
-              </HoverCardTrigger>
-              <HoverCardContent className="w-80 bg-card border border-border shadow-xl rounded-xl p-4">
-                <div className="space-y-2">
-                  <div className="flex items-center gap-3">
-                    <Image
-                      src={creator.avatar || "/placeholder.svg"}
-                      alt={creator.name}
-                      width={48}
-                      height={48}
-                      className="rounded-full border border-border object-cover"
-                    />
-                    <div>
-                      <h4 className="text-base font-semibold">{creator.name}</h4>
-                      <p className="text-sm text-muted-foreground flex items-center gap-1">
-                        @{creator.username}
-                        <span className="inline-flex items-center justify-center bg-muted rounded-full p-0.5">
-                          {getPlatformIcon(creator.platform)}
-                        </span>
-                      </p>
-                    </div>
-                  </div>
-                  <p className="text-sm text-foreground/80">{creator.description}</p>
-                  <div className="flex justify-between text-sm">
-                    <div>
-                      <span className="font-medium">{formatFollowers(creator.followers)}</span>
-                      <span className="text-muted-foreground"> followers</span>
-                    </div>
-                    <div>
-                      <span className={`font-medium ${engagementRating.color}`}>{creator.engagement}%</span>
-                      <span className="text-muted-foreground"> engagement</span>
-                    </div>
-                  </div>
-                  <div className="flex flex-wrap gap-1 pt-1">
-                    {creator.categories.map((category) => (
-                      <Badge key={category} variant="secondary" className="text-xs rounded-full">
-                        {category}
-                      </Badge>
-                    ))}
-                  </div>
-                </div>
-              </HoverCardContent>
-            </HoverCard>
+            <div className="relative cursor-pointer transition-transform duration-200 transform hover:scale-105 flex-shrink-0">
+              <div
+                className={cn(
+                  "absolute inset-0 rounded-full bg-gradient-to-br opacity-0 hover:opacity-100 transition-opacity duration-300",
+                  getPlatformColor(creator.platform),
+                )}
+              ></div>
+              <Image
+                src={creator.avatar || "/placeholder.svg"}
+                alt={creator.name}
+                width={50}
+                height={50}
+                className="rounded-full border border-border object-cover relative z-10 sm:w-[60px] sm:h-[60px] w-[50px] h-[50px]"
+              />
+              <div className="absolute -bottom-1 -right-1 bg-card rounded-full p-1 border border-border shadow-sm z-20">
+                {getPlatformIcon(creator.platform)}
+              </div>
+            </div>
 
             <div className="min-w-0">
               <h3 className="font-semibold text-base sm:text-lg group-hover:text-primary transition-colors duration-200 truncate">

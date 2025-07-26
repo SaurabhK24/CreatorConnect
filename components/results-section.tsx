@@ -1,7 +1,9 @@
-import CreatorCard from "./creator-card"
+"use client"
 
-// Mock data for creators
-const creators = [
+import CreatorCard from "./creator-card"
+import Link from "next/link"
+
+export const creators = [
   {
     id: 1,
     name: "Alex Morgan",
@@ -17,23 +19,23 @@ const creators = [
   {
     id: 2,
     name: "Jamie Chen",
-    username: "jamietech",
+    username: "miachen",
     avatar: "/placeholder.svg?height=100&width=100",
-    platform: "YouTube",
-    followers: 450000,
-    engagement: 4.7,
+    platform: "youtube",
+    followers: 550000,
+    engagement: 6.8,
     categories: ["Tech", "Reviews"],
     description: "Tech reviewer and gadget enthusiast. Bringing you the latest in consumer electronics and tech news.",
   },
   {
     id: 3,
     name: "Sofia Rodriguez",
-    username: "sofiaeats",
+    username: "liabenson",
     avatar: "/placeholder.svg?height=100&width=100",
-    platform: "TikTok",
+    platform: "tiktok",
     followers: 890000,
-    engagement: 8.1,
-    categories: ["Food", "Cooking"],
+    engagement: 14.2,
+    categories: ["Comedy", "Lifestyle"],
     description: "Sharing quick and easy recipes for busy people. Making cooking fun and accessible for everyone!",
   },
   {
@@ -63,7 +65,7 @@ const creators = [
     name: "David Kim",
     username: "davidgames",
     avatar: "/placeholder.svg?height=100&width=100",
-    platform: "Twitch",
+    platform: "twitch",
     followers: 180000,
     engagement: 7.2,
     categories: ["Gaming", "Entertainment"],
@@ -73,12 +75,19 @@ const creators = [
 
 export default function ResultsSection() {
   return (
-    <section className="pb-8 w-full">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-        {creators.map((creator) => (
+    <div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {creators.slice(0, 3).map((creator) => (
           <CreatorCard key={creator.id} creator={creator} />
         ))}
       </div>
-    </section>
+      <div className="mt-8 text-center">
+        <Link href="/creators" passHref>
+          <button className="text-sm text-primary flex items-center hover:text-primary/80 transition-colors duration-200 mx-auto">
+            View all
+          </button>
+        </Link>
+      </div>
+    </div>
   )
 }
