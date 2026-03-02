@@ -43,25 +43,25 @@ export default function AdvancedSearch() {
   const SearchIcon = searchType === "hashtag" ? Hash : AtSign
 
   return (
-    <section className="glass-effect rounded-2xl p-4 sm:p-6 shadow-lg animate-in w-full max-w-4xl mx-auto">
+    <section className="bg-white/[0.03] backdrop-blur-xl border border-white/[0.07] rounded-2xl p-4 sm:p-6 shadow-xl animate-in w-full max-w-4xl mx-auto">
       <Tabs defaultValue="discover" value={activeTab} onValueChange={setActiveTab} className="w-full">
         <div className="flex justify-center w-full mb-6">
-          <TabsList className="grid w-full max-w-md grid-cols-3 h-12 p-1 bg-muted/80 backdrop-blur-sm rounded-full">
+          <TabsList className="grid w-full max-w-md grid-cols-3 h-12 p-1 bg-white/[0.05] backdrop-blur-sm rounded-full border border-white/[0.07]">
             <TabsTrigger
               value="discover"
-              className="rounded-full text-sm data-[state=active]:bg-background dark:data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
+              className="rounded-full text-sm data-[state=active]:bg-orange-500 data-[state=active]:text-white data-[state=active]:shadow-sm transition-all duration-200 text-muted-foreground"
             >
               Discover
             </TabsTrigger>
             <TabsTrigger
               value="saved"
-              className="rounded-full text-sm data-[state=active]:bg-background dark:data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
+              className="rounded-full text-sm data-[state=active]:bg-orange-500 data-[state=active]:text-white data-[state=active]:shadow-sm transition-all duration-200 text-muted-foreground"
             >
               Saved
             </TabsTrigger>
             <TabsTrigger
               value="contacted"
-              className="rounded-full text-sm data-[state=active]:bg-background dark:data-[state=active]:bg-card data-[state=active]:text-primary data-[state=active]:shadow-sm transition-all duration-200"
+              className="rounded-full text-sm data-[state=active]:bg-orange-500 data-[state=active]:text-white data-[state=active]:shadow-sm transition-all duration-200 text-muted-foreground"
             >
               Contacted
             </TabsTrigger>
@@ -102,7 +102,7 @@ export default function AdvancedSearch() {
               placeholder={searchType === "hashtag" ? "e.g., #fashion, #gaming" : "e.g., @creatorname"}
               className={cn(
                 "pl-16 pr-4 border-input rounded-full h-14 text-base transition-all duration-200",
-                searchFocus ? "ring-2 ring-primary/20 border-primary/50" : "",
+                searchFocus ? "ring-2 ring-orange-500/25 border-orange-500/40" : "",
               )}
               onFocus={() => setSearchFocus(true)}
               onBlur={() => setSearchFocus(false)}
@@ -122,7 +122,7 @@ export default function AdvancedSearch() {
                 <SelectItem value="twitter">Twitter</SelectItem>
               </SelectContent>
             </Select>
-            <Button className="flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 transition-colors duration-200 h-14 rounded-full w-full sm:w-auto px-8 text-base">
+            <Button className="flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-500/90 transition-colors duration-200 h-14 rounded-full w-full sm:w-auto px-8 text-base">
               <Search className="h-5 w-5" />
               Search
             </Button>
@@ -134,12 +134,12 @@ export default function AdvancedSearch() {
             variant="ghost"
             size="sm"
             onClick={() => setIsFiltersOpen(!isFiltersOpen)}
-            className="flex items-center gap-2 text-muted-foreground p-0 hover:bg-transparent hover:text-primary transition-colors duration-200"
+            className="flex items-center gap-2 text-muted-foreground p-0 hover:bg-transparent hover:text-orange-400 transition-colors duration-200"
           >
             <Filter className="h-4 w-4" />
             <span>{isFiltersOpen ? "Hide" : "Show"} Advanced Filters</span>
             {selectedCategories.length > 0 && (
-              <span className="bg-primary/10 text-primary rounded-full px-2 py-0.5 text-xs">
+              <span className="bg-orange-500/15 text-orange-400 rounded-full px-2 py-0.5 text-xs font-medium">
                 {selectedCategories.length}
               </span>
             )}
@@ -167,8 +167,8 @@ export default function AdvancedSearch() {
                         className={cn(
                           "cursor-pointer transition-all duration-200 rounded-full py-2 px-4 text-sm",
                           selectedCategories.includes(category)
-                            ? "bg-primary/10 hover:bg-primary/20 text-primary border-primary/20"
-                            : "hover:bg-muted",
+                            ? "bg-orange-500/15 hover:bg-orange-500/20 text-orange-400 border-orange-500/25"
+                            : "border-white/[0.07] bg-white/[0.03] text-muted-foreground hover:bg-white/[0.06] hover:text-foreground",
                         )}
                         onClick={() => toggleCategory(category)}
                       >
@@ -179,7 +179,7 @@ export default function AdvancedSearch() {
                               initial={{ scale: 0, opacity: 0 }}
                               animate={{ scale: 1, opacity: 1 }}
                               exit={{ scale: 0, opacity: 0 }}
-                              className="ml-2 bg-primary rounded-full h-4 w-4 flex items-center justify-center"
+                              className="ml-2 bg-orange-500 rounded-full h-4 w-4 flex items-center justify-center"
                             >
                               <X className="h-3 w-3 text-primary-foreground" />
                             </motion.div>
