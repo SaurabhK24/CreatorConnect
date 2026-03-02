@@ -2,6 +2,8 @@
 
 import CreatorCard from "./creator-card"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { ArrowRight } from "lucide-react"
 
 export const creators = [
   {
@@ -82,10 +84,10 @@ export default function ResultsSection() {
         ))}
       </div>
       <div className="mt-8 text-center">
-        <Link href="/creators" passHref>
-          <button className="text-sm text-primary flex items-center hover:text-primary/80 transition-colors duration-200 mx-auto">
-            View all
-          </button>
+        <Link href="/creators">
+          <Button variant="ghost" size="sm" className="gap-1 text-primary hover:text-primary/80 font-medium">
+            View all creators <ArrowRight className="h-4 w-4" />
+          </Button>
         </Link>
       </div>
     </div>
