@@ -25,7 +25,7 @@ export interface ApiTikTokCreator {
   signature: string
   verified: boolean
   bioLink?: string
-  stats: {
+  stats?: {
     followers: number
     following: number
     hearts: number

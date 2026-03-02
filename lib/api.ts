@@ -10,7 +10,7 @@ import type {
   ApiTikTokCreator,
 } from './types'
 
-export const API_BASE = 'http://localhost:8000'
+export const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:8000'
 
 class ApiError extends Error {
   constructor(public status: number, message: string) {
@@ -21,8 +21,8 @@ class ApiError extends Error {
 
 async function apiFetch<T>(path: string, init?: RequestInit): Promise<ApiResponse<T>> {
   const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', ...init?.headers },
     ...init,
+    headers: { 'Content-Type': 'application/json', ...init?.headers },
   })
   if (!res.ok) {
     let msg = `API error ${res.status}`
@@ -43,9 +43,7 @@ export function normalizeTikTokCreator(c: ApiTikTokCreator): Creator {
     avatar: c.avatarUrl ?? '',
     platform: 'TikTok',
     followers: c.stats?.followers ?? 0,
-    engagement: c.engagementMetrics?.engagementRate
-      ? Math.round(c.engagementMetrics.engagementRate * 100) / 100
-      : 0,
+    engagement: Math.round((c.engagementMetrics?.engagementRate ?? 0) * 100) / 100,
     categories: [],
     description: c.signature ?? '',
     verified: c.verified,
@@ -57,7 +55,7 @@ export function normalizeTikTokCreator(c: ApiTikTokCreator): Creator {
 /** Maps a raw YouTube result → Creator shape (for mixed-platform display) */
 export function normalizeYouTubeCreator(c: ApiYouTubeResult, index: number): Creator {
   return {
-    id: `yt-${index}`,
+    id: c.channelUrl ?? `yt-${encodeURIComponent(c.channelName)}`,
     name: c.channelName,
     username: c.channelName,
     avatar: '',
@@ -126,7 +124,7 @@ export async function getCreatorProfile(username: string): Promise<CreatorProfil
 }
 
 /** GET /api/youtube/search/:query — YouTube creator/channel search */
-export async function searchYouTube(query: string, maxResults = 20) {
+export async function searchYouTube(query: string, maxResults = 20): Promise<{ items: ApiYouTubeResult[] }> {
   const res = await apiFetch<{ items: ApiYouTubeResult[] }>(
     `/api/youtube/search/${encodeURIComponent(query)}?maxResults=${maxResults}`,
   )
