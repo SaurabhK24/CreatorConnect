@@ -82,15 +82,16 @@ export default function ResultsSection() {
       </div>
 
       <div className="mt-8 flex justify-center">
-        <Link href="/creators" passHref>
-          <Button
-            variant="outline"
-            className="rounded-full border-white/10 hover:border-orange-500/40 hover:bg-orange-500/10 hover:text-orange-400 text-muted-foreground transition-all duration-200 gap-2"
-          >
+        <Button
+          variant="outline"
+          asChild
+          className="rounded-full border-white/10 hover:border-orange-500/40 hover:bg-orange-500/10 hover:text-orange-400 text-muted-foreground transition-all duration-200 gap-2"
+        >
+          <Link href="/creators">
             View all creators
             <ArrowRight className="h-4 w-4" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
     </div>
   )

@@ -108,7 +108,7 @@ export default function CreatorCard({ creator }: CreatorCardProps) {
               </div>
               <div className="flex items-center gap-1.5 text-muted-foreground text-sm mt-0.5">
                 <span className="truncate">@{creator.username}</span>
-                <span className="text-white/20">·</span>
+                <span className="text-muted-foreground/30">·</span>
                 <span className="flex-shrink-0 capitalize">{creator.platform}</span>
               </div>
             </div>

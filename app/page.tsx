@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b border-white/[0.07] backdrop-blur-md sticky top-0 z-50 bg-background/80">
+      <header className="border-b border-border/50 backdrop-blur-md sticky top-0 z-50 bg-background/80">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
             <Flame className="h-5 w-5 text-orange-500" />
@@ -83,7 +83,7 @@ export default function Home() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-white/[0.06] mb-12" />
+        <div className="border-t border-border/40 mb-12" />
 
         {/* Top Creators */}
         <div className="pb-16">
@@ -101,7 +101,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="border-t border-white/[0.06] py-8 bg-background">
+      <footer className="border-t border-border/40 py-8 bg-background">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p>© {new Date().getFullYear()} CreatorConnect. All rights reserved.</p>
         </div>

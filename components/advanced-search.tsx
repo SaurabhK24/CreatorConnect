@@ -197,7 +197,7 @@ export default function AdvancedSearch() {
                       max={1000000}
                       step={10000}
                       onValueChange={setFollowerRange}
-                      className="[&_[role=slider]]:h-5 [&_[role=slider]]:w-5 [&_[role=slider]]:bg-orange-500"
+                      className="[&_[role=slider]]:h-5 [&_[role=slider]]:w-5 [&_[role=slider]]:bg-orange-500 [&_[data-orientation=horizontal]>span]:bg-orange-500"
                     />
                     <div className="flex justify-between mt-3 text-sm text-muted-foreground">
                       <span>0</span>
