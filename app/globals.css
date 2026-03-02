@@ -4,65 +4,57 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 20 10% 5%;
+    --background: 0 0% 3%;
+    --foreground: 0 0% 93%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 20 10% 5%;
+    --card: 0 0% 7%;
+    --card-foreground: 0 0% 93%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 20 10% 5%;
+    --popover: 0 0% 7%;
+    --popover-foreground: 0 0% 93%;
 
-    --primary: 12 75% 50%;
+    --primary: 24 95% 53%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 30 100% 97%;
-    --secondary-foreground: 20 10% 5%;
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 93%;
 
-    --muted: 20 10% 96%;
-    --muted-foreground: 20 10% 40%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 220 9% 46%;
 
-    --accent: 30 100% 94%;
-    --accent-foreground: 12 75% 40%;
+    --accent: 0 0% 12%;
+    --accent-foreground: 0 0% 93%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 20 10% 90%;
-    --input: 20 10% 90%;
-    --ring: 12 75% 50%;
+    --border: 0 0% 100% / 0.07;
+    --input: 0 0% 100% / 0.07;
+    --ring: 24 95% 53%;
 
     --radius: 1rem;
   }
 
-  .dark {
-    --background: 20 10% 5%;
-    --foreground: 0 0% 95%;
-
-    --card: 20 10% 7%;
-    --card-foreground: 0 0% 95%;
-
-    --popover: 20 10% 7%;
-    --popover-foreground: 0 0% 95%;
-
-    --primary: 12 75% 50%;
+  .light {
+    --background: 0 0% 100%;
+    --foreground: 20 10% 5%;
+    --card: 0 0% 100%;
+    --card-foreground: 20 10% 5%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 10% 5%;
+    --primary: 24 95% 53%;
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 12 30% 15%;
-    --secondary-foreground: 0 0% 95%;
-
-    --muted: 12 30% 15%;
-    --muted-foreground: 20 10% 70%;
-
-    --accent: 12 30% 15%;
-    --accent-foreground: 0 0% 95%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 95%;
-
-    --border: 20 10% 20%;
-    --input: 20 10% 20%;
-    --ring: 12 75% 50%;
+    --secondary: 30 100% 97%;
+    --secondary-foreground: 20 10% 5%;
+    --muted: 20 10% 96%;
+    --muted-foreground: 20 10% 40%;
+    --accent: 30 100% 94%;
+    --accent-foreground: 12 75% 40%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 20 10% 90%;
+    --input: 20 10% 90%;
+    --ring: 24 95% 53%;
   }
 }
 
@@ -79,34 +71,55 @@
 
 @layer components {
   .animate-in {
-    animation: animateIn 0.3s cubic-bezier(0.2, 0.0, 0, 1.0);
+    animation: animateIn 0.4s cubic-bezier(0.2, 0.0, 0, 1.0);
   }
 
   .animate-pulse-slow {
     animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
 
+  /* Dark glass card — subtle border at rest, orange glow on hover */
   .glass-effect {
-    @apply bg-white/80 dark:bg-black/60 backdrop-blur-xl border border-white/20 dark:border-white/10;
+    @apply bg-white/5 backdrop-blur-xl border border-white/[0.07];
   }
 
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-xl hover:shadow-primary/5 hover:-translate-y-1;
+    @apply transition-all duration-300;
+    @apply hover:shadow-[0_0_0_1px_rgba(249,115,22,0.35),0_0_24px_rgba(249,115,22,0.08)];
+    @apply hover:-translate-y-1;
   }
 
   .text-gradient {
-    @apply bg-gradient-to-r from-primary via-orange-500 to-amber-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-orange-500 via-orange-400 to-amber-400 bg-clip-text text-transparent;
   }
 
   .fire-gradient {
-    @apply bg-gradient-to-br from-primary via-orange-500 to-amber-500;
+    @apply bg-gradient-to-br from-orange-500 via-orange-400 to-amber-400;
+  }
+
+  /* Hero ambient glow orb — place absolutely behind heading */
+  .glow-orb {
+    position: absolute;
+    width: 600px;
+    height: 300px;
+    background: radial-gradient(ellipse at center, rgba(249,115,22,0.18) 0%, transparent 70%);
+    border-radius: 50%;
+    filter: blur(40px);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Subtle dot grid for hero section depth */
+  .dot-grid {
+    background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+    background-size: 28px 28px;
   }
 }
 
 @keyframes animateIn {
   from {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -115,11 +128,6 @@
 }
 
 @keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.8;
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
 }
