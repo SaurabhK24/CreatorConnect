@@ -1,9 +1,7 @@
 import Image from "next/image"
 import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
-import { Instagram, Youtube, Twitch, Twitter, MessageSquare, BookmarkPlus, ExternalLink, Flame } from "lucide-react"
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Instagram, Youtube, Twitch, Twitter, MessageSquare, BookmarkPlus, Flame } from "lucide-react"
 import { cn } from "@/lib/utils"
 import TikTokIcon from "./tiktok-icon"
 
@@ -19,169 +17,116 @@ interface Creator {
   description: string
 }
 
-interface CreatorCardProps {
-  creator: Creator
-}
-
-export default function CreatorCard({ creator }: CreatorCardProps) {
+export default function CreatorCard({ creator }: { creator: Creator }) {
   const formatFollowers = (count: number) => {
     if (count >= 1000000) return (count / 1000000).toFixed(1) + "M"
-    if (count >= 1000) return (count / 1000).toFixed(1) + "K"
+    if (count >= 1000) return (count / 1000).toFixed(0) + "K"
     return count.toString()
   }
 
   const getPlatformIcon = (platform: string) => {
-    const iconProps = { className: "h-4 w-4" }
+    const cls = "h-3.5 w-3.5"
     switch (platform.toLowerCase()) {
-      case "instagram":
-        return <Instagram {...iconProps} />
-      case "youtube":
-        return <Youtube {...iconProps} />
-      case "tiktok":
-        return <TikTokIcon {...iconProps} />
-      case "twitter":
-        return <Twitter {...iconProps} />
-      case "twitch":
-        return <Twitch {...iconProps} />
-      default:
-        return null
+      case "instagram": return <Instagram className={cls} />
+      case "youtube": return <Youtube className={cls} />
+      case "tiktok": return <TikTokIcon className={cls} />
+      case "twitter": return <Twitter className={cls} />
+      case "twitch": return <Twitch className={cls} />
+      default: return null
     }
   }
 
-  const getPlatformColor = (platform: string) => {
+  const getPlatformBadgeColor = (platform: string) => {
     switch (platform.toLowerCase()) {
-      case "instagram":
-        return "from-pink-500 to-purple-500"
-      case "youtube":
-        return "from-red-500 to-red-600"
-      case "tiktok":
-        return "from-cyan-500 to-blue-500"
-      case "twitter":
-        return "from-blue-400 to-blue-500"
-      case "twitch":
-        return "from-purple-500 to-purple-700"
-      default:
-        return "from-gray-500 to-gray-600"
+      case "instagram": return "bg-pink-50 text-pink-600 border-pink-100"
+      case "youtube": return "bg-red-50 text-red-600 border-red-100"
+      case "tiktok": return "bg-cyan-50 text-cyan-600 border-cyan-100"
+      case "twitter": return "bg-blue-50 text-blue-600 border-blue-100"
+      case "twitch": return "bg-purple-50 text-purple-600 border-purple-100"
+      default: return "bg-gray-50 text-gray-600 border-gray-100"
     }
   }
 
-  const getEngagementRating = (rate: number) => {
-    if (rate > 7) return { text: "Excellent", color: "text-green-600 dark:text-green-500" }
-    if (rate > 5) return { text: "Good", color: "text-primary dark:text-primary" }
-    if (rate > 3) return { text: "Average", color: "text-amber-600 dark:text-amber-500" }
-    return { text: "Low", color: "text-muted-foreground" }
-  }
-
-  const engagementRating = getEngagementRating(creator.engagement)
+  const engagementColor =
+    creator.engagement > 7 ? "text-emerald-600" :
+    creator.engagement > 5 ? "text-primary" :
+    creator.engagement > 3 ? "text-amber-600" :
+    "text-muted-foreground"
 
   return (
-    <Card className="overflow-hidden card-hover border-border/50 bg-card/80 backdrop-blur-sm rounded-2xl animate-in h-full flex flex-col">
-      <CardContent className="p-0 flex-grow">
-        <div className="p-4 sm:p-6">
-          <div className="flex items-center gap-3 sm:gap-4 mb-4">
-            <div className="relative cursor-pointer transition-transform duration-200 transform hover:scale-105 flex-shrink-0">
-              <div
-                className={cn(
-                  "absolute inset-0 rounded-full bg-gradient-to-br opacity-0 hover:opacity-100 transition-opacity duration-300",
-                  getPlatformColor(creator.platform),
-                )}
-              ></div>
+    <div className="group bg-white border border-border rounded-2xl overflow-hidden card-hover flex flex-col">
+      {/* Header */}
+      <div className="p-5 pb-4">
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <div className="relative flex-shrink-0">
               <Image
                 src={creator.avatar || "/placeholder.svg"}
                 alt={creator.name}
-                width={50}
-                height={50}
-                className="rounded-full border border-border object-cover relative z-10 sm:w-[60px] sm:h-[60px] w-[50px] h-[50px]"
+                width={48}
+                height={48}
+                className="rounded-full object-cover border-2 border-border"
               />
-              <div className="absolute -bottom-1 -right-1 bg-card rounded-full p-1 border border-border shadow-sm z-20">
-                {getPlatformIcon(creator.platform)}
-              </div>
+              {creator.engagement > 7 && (
+                <span className="absolute -top-1 -right-1 bg-primary rounded-full p-0.5">
+                  <Flame className="h-2.5 w-2.5 text-white" />
+                </span>
+              )}
             </div>
-
-            <div className="min-w-0">
-              <h3 className="font-semibold text-base sm:text-lg group-hover:text-primary transition-colors duration-200 truncate">
-                {creator.name}
-                {creator.engagement > 7 && (
-                  <span className="ml-2 inline-flex">
-                    <Flame className="h-4 w-4 text-primary" />
-                  </span>
-                )}
-              </h3>
-              <div className="flex items-center gap-1 text-muted-foreground text-sm truncate">
-                <span className="truncate">@{creator.username}</span>
-                <span className="text-border flex-shrink-0">•</span>
-                <span className="flex items-center gap-1 flex-shrink-0">{creator.platform}</span>
-              </div>
+            <div>
+              <h3 className="font-display font-semibold text-base leading-tight">{creator.name}</h3>
+              <p className="text-sm text-muted-foreground">@{creator.username}</p>
             </div>
           </div>
+          <span className={cn("inline-flex items-center gap-1 text-xs font-medium border rounded-full px-2.5 py-1", getPlatformBadgeColor(creator.platform))}>
+            {getPlatformIcon(creator.platform)}
+            {creator.platform}
+          </span>
+        </div>
 
-          <p className="text-foreground/80 mb-4 line-clamp-2 text-sm sm:text-base">{creator.description}</p>
+        <p className="text-sm text-muted-foreground line-clamp-2 leading-relaxed mb-4">{creator.description}</p>
 
-          <div className="flex flex-wrap gap-2 mb-4">
-            {creator.categories.map((category) => (
-              <Badge
-                key={category}
-                variant="secondary"
-                className="bg-secondary hover:bg-secondary/80 text-secondary-foreground hover:text-secondary-foreground/80 transition-colors duration-200 rounded-full text-xs"
-              >
-                {category}
-              </Badge>
-            ))}
+        {/* Categories */}
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          {creator.categories.map((cat) => (
+            <span key={cat} className="text-xs bg-muted text-muted-foreground rounded-full px-2.5 py-1">
+              {cat}
+            </span>
+          ))}
+        </div>
+
+        {/* Stats */}
+        <div className="grid grid-cols-2 gap-3">
+          <div className="bg-muted/50 rounded-xl p-3 text-center">
+            <p className="font-display font-bold text-lg">{formatFollowers(creator.followers)}</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Followers</p>
           </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:gap-4 text-center">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="bg-muted/50 rounded-xl p-2 sm:p-3 border border-border hover:border-primary/20 transition-all duration-200">
-                    <p className="text-base sm:text-lg font-semibold group-hover:text-primary transition-colors duration-200">
-                      {formatFollowers(creator.followers)}
-                    </p>
-                    <p className="text-xs text-muted-foreground">Followers</p>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent className="bg-card border border-border rounded-xl">
-                  <p>Total follower count across platforms</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="bg-muted/50 rounded-xl p-2 sm:p-3 border border-border hover:border-primary/20 transition-all duration-200">
-                    <p className={`text-base sm:text-lg font-semibold ${engagementRating.color}`}>
-                      {creator.engagement}%
-                    </p>
-                    <p className="text-xs text-muted-foreground">{engagementRating.text} Engagement</p>
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent className="bg-card border border-border rounded-xl">
-                  <p>Average engagement rate on recent posts</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+          <div className="bg-muted/50 rounded-xl p-3 text-center">
+            <p className={cn("font-display font-bold text-lg", engagementColor)}>{creator.engagement}%</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Engagement</p>
           </div>
         </div>
-      </CardContent>
-      <CardFooter className="flex justify-between p-3 sm:p-4 border-t border-border/50 bg-muted/30 backdrop-blur-sm">
+      </div>
+
+      {/* Footer Actions */}
+      <div className="mt-auto px-5 py-4 border-t border-border/60 flex gap-2">
         <Button
           variant="outline"
           size="sm"
-          className="flex items-center gap-1 border-border hover:bg-primary/10 hover:text-primary hover:border-primary/20 transition-all duration-200 rounded-full text-xs sm:text-sm"
+          className="flex-1 gap-1.5 rounded-xl hover:bg-primary/5 hover:text-primary hover:border-primary/20 text-sm font-medium"
         >
-          <MessageSquare className="h-3 w-3 sm:h-4 sm:w-4" />
-          <span className="hidden sm:inline">Contact</span>
+          <MessageSquare className="h-3.5 w-3.5" />
+          Contact
         </Button>
         <Button
           variant="outline"
           size="sm"
-          className="flex items-center gap-1 border-border hover:bg-primary/10 hover:text-primary hover:border-primary/20 transition-all duration-200 rounded-full text-xs sm:text-sm"
+          className="flex-1 gap-1.5 rounded-xl hover:bg-primary/5 hover:text-primary hover:border-primary/20 text-sm font-medium"
         >
-          <BookmarkPlus className="h-3 w-3 sm:h-4 sm:w-4" />
-          <span className="hidden sm:inline">Save</span>
+          <BookmarkPlus className="h-3.5 w-3.5" />
+          Save
         </Button>
-      </CardFooter>
-    </Card>
+      </div>
+    </div>
   )
 }
