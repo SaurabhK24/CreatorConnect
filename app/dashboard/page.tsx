@@ -34,7 +34,7 @@ import {
 } from "lucide-react"
 import { useAuth } from "@/components/auth-context"
 import { cn } from "@/lib/utils"
-import { searchCreators, normalizeTikTokCreator, ApiError } from "@/lib/api"
+import { searchCreators, dedupeRawItems, ApiError } from "@/lib/api"
 import type { Creator } from "@/lib/types"
 import CreatorCard from "@/components/creator-card"
 
@@ -365,7 +365,7 @@ function FindCreatorsSection() {
     setFindError(null)
     try {
       const data = await searchCreators({ query: findQuery || "lifestyle", resultsPerPage: 20 })
-      setFindResults((data.items ?? []).map(normalizeTikTokCreator))
+      setFindResults(dedupeRawItems(data.items ?? []))
     } catch (err) {
       if (err instanceof ApiError) {
         setFindError(err.message)

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import CreatorCard from "./creator-card"
-import { searchCreators, normalizeTikTokCreator } from "@/lib/api"
+import { searchCreators, dedupeRawItems } from "@/lib/api"
 import type { Creator } from "@/lib/types"
 
 function SkeletonCard() {
@@ -39,7 +39,7 @@ export default function ResultsSection() {
 
   useEffect(() => {
     searchCreators({ query: "lifestyle", resultsPerPage: 3 })
-      .then((data) => setCreators((data.items ?? []).slice(0, 3).map(normalizeTikTokCreator)))
+      .then((data) => setCreators(dedupeRawItems(data.items ?? []).slice(0, 3)))
       .catch(() => {})
       .finally(() => setLoading(false))
   }, [])

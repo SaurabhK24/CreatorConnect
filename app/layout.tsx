@@ -1,26 +1,29 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Syne, DM_Sans } from "next/font/google"
+import { Bricolage_Grotesque, Instrument_Sans } from "next/font/google"
 import "./globals.css"
 import { cn } from "@/lib/utils"
 import { ThemeProvider } from "@/components/theme-provider"
 import { OnboardingProvider } from "@/components/onboarding/onboarding-provider"
+import { AuthProvider } from "@/components/auth-context"
+import BackendStatus from "@/components/backend-status"
 
-const syne = Syne({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-display",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["300", "400", "500", "600", "700", "800"],
 })
 
-const dmSans = DM_Sans({
+const instrument = Instrument_Sans({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
 })
 
 export const metadata: Metadata = {
-  title: "CreatorConnect | Find the Perfect Content Creators",
-  description: "Discover and connect with the best content creators for your brand",
+  title: "CreatorConnect — Recruit UGC Creators at Scale",
+  description:
+    "Source, brief, track, and pay UGC creators from one platform. 50,000+ vetted creators ready to amplify your brand.",
 }
 
 export default function RootLayout({
@@ -30,9 +33,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn("min-h-screen bg-background font-sans antialiased", syne.variable, dmSans.variable)}>
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false} forcedTheme="light">
-          <OnboardingProvider>{children}</OnboardingProvider>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          bricolage.variable,
+          instrument.variable,
+        )}
+      >
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem={false} forcedTheme="dark">
+          <AuthProvider>
+            <OnboardingProvider>{children}</OnboardingProvider>
+            <BackendStatus />
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -14,6 +14,8 @@ import {
   searchByHashtag,
   getCreatorProfile,
   normalizeTikTokCreator,
+  normalizeRawTikTokItem,
+  dedupeRawItems,
 } from "@/lib/api"
 
 const PLATFORMS = [
@@ -81,6 +83,7 @@ export default function CreatorsPage() {
       let normalized: Creator[] = []
 
       if (niche) {
+        // AI pipeline: shaped creator objects with uniqueId/nickname/stats
         const data = await discoverByNiche({
           niche,
           maxCreators: 50,
@@ -89,17 +92,34 @@ export default function CreatorsPage() {
         if (signal?.aborted) return
         normalized = (data.creators ?? []).map(normalizeTikTokCreator)
       } else if (query && searchType === "hashtag") {
-        const data = await searchByHashtag(query, 30)
+        // Raw TikTok video items with authorMeta — dedupe by author
+        const data = await searchByHashtag(query, 50)
         if (signal?.aborted) return
-        normalized = (data.items ?? []).map(normalizeTikTokCreator)
+        normalized = dedupeRawItems(data.items ?? [])
       } else if (query && searchType === "username") {
+        // Profile endpoint: profile.user is the identity
         const data = await getCreatorProfile(query.replace(/^@/, ""))
         if (signal?.aborted) return
-        normalized = data.profile ? [normalizeTikTokCreator(data.profile)] : []
+        normalized = data.profile?.user
+          ? [{
+              id: data.profile.user.uniqueId,
+              name: data.profile.user.nickname || data.profile.user.uniqueId,
+              username: data.profile.user.uniqueId,
+              avatar: data.profile.user.avatarUrl ?? '',
+              platform: 'TikTok',
+              followers: data.profile.stats?.followers ?? 0,
+              engagement: parseFloat(((data.engagementMetrics?.engagementRate ?? 0) * 100).toFixed(2)),
+              categories: [],
+              description: data.profile.user.signature ?? '',
+              verified: data.profile.user.verified,
+              tiktokId: data.profile.user.uniqueId,
+            }]
+          : []
       } else {
+        // Keyword search: raw TikTok items with authorMeta — dedupe by author
         const data = await searchCreators({ query: query ?? "lifestyle", resultsPerPage: 30 })
         if (signal?.aborted) return
-        normalized = (data.items ?? []).map(normalizeTikTokCreator)
+        normalized = dedupeRawItems(data.items ?? [])
       }
 
       if (minFollowers > 0) {
