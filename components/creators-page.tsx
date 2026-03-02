@@ -68,8 +68,9 @@ export default function CreatorsPage() {
   const minFollowers = Number(searchParams.get("minFollowers") ?? 0)
 
   const isSlowSearch = Boolean(niche)
+  const NICHE_MIN_FOLLOWERS_DEFAULT = 1_000
 
-  const fetchCreators = useCallback(async () => {
+  const fetchCreators = useCallback(async (signal?: AbortSignal) => {
     setLoading(true)
     setError(null)
     setCreators([])
@@ -81,17 +82,21 @@ export default function CreatorsPage() {
         const data = await discoverByNiche({
           niche,
           maxCreators: 50,
-          minFollowers: minFollowers || 1000,
+          minFollowers: minFollowers > 0 ? minFollowers : NICHE_MIN_FOLLOWERS_DEFAULT,
         })
+        if (signal?.aborted) return
         normalized = (data.creators ?? []).map(normalizeTikTokCreator)
       } else if (query && searchType === "hashtag") {
         const data = await searchByHashtag(query, 30)
+        if (signal?.aborted) return
         normalized = (data.items ?? []).map(normalizeTikTokCreator)
       } else if (query && searchType === "username") {
         const data = await getCreatorProfile(query.replace(/^@/, ""))
+        if (signal?.aborted) return
         normalized = data.profile ? [normalizeTikTokCreator(data.profile)] : []
       } else {
         const data = await searchCreators({ query: query ?? "lifestyle", resultsPerPage: 30 })
+        if (signal?.aborted) return
         normalized = (data.items ?? []).map(normalizeTikTokCreator)
       }
 
@@ -101,14 +106,17 @@ export default function CreatorsPage() {
 
       setCreators(normalized)
     } catch (e) {
+      if (signal?.aborted) return
       setError(e instanceof Error ? e.message : "Something went wrong. Is the backend running?")
     } finally {
-      setLoading(false)
+      if (!signal?.aborted) setLoading(false)
     }
-  }, [niche, query, searchType, minFollowers])
+  }, [niche, query, searchType, minFollowers]) // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    fetchCreators()
+    const controller = new AbortController()
+    fetchCreators(controller.signal)
+    return () => controller.abort()
   }, [fetchCreators])
 
   const filteredCreators = useMemo(() => {
@@ -226,7 +234,7 @@ export default function CreatorsPage() {
               </select>
             </div>
             <button
-              onClick={fetchCreators}
+              onClick={() => fetchCreators()}
               disabled={loading}
               title="Refresh"
               className="p-2.5 rounded-xl bg-[#111] border border-white/10 text-white/40 hover:text-white/80 transition-all disabled:opacity-40"
@@ -250,7 +258,7 @@ export default function CreatorsPage() {
               <p className="text-white/30 text-sm max-w-sm">{error}</p>
             </div>
             <button
-              onClick={fetchCreators}
+              onClick={() => fetchCreators()}
               className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white/[0.06] border border-white/10 text-white/70 text-sm font-medium hover:bg-white/[0.1] transition-all"
             >
               <RefreshCw className="w-4 h-4" />
@@ -276,7 +284,7 @@ export default function CreatorsPage() {
               >
                 {filteredCreators.map((creator, i) => (
                   <motion.div
-                    key={creator.id}
+                    key={`${creator.platform}-${creator.id}`}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: i * 0.04 }}
