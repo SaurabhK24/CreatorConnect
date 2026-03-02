@@ -1,41 +1,58 @@
 "use client"
 
 import { useState } from "react"
-import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Sparkles, Search } from "lucide-react"
+import { Sparkles, ArrowRight } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export default function GptSearch() {
   const [searchFocus, setSearchFocus] = useState(false)
+  const [value, setValue] = useState("")
 
   return (
     <div className="w-full max-w-2xl mx-auto">
-      <motion.div
-        layout
+      <div
         className={cn(
-          "relative glass-effect rounded-full shadow-lg transition-all duration-300",
-          searchFocus ? "shadow-primary/20" : "",
+          "relative bg-white rounded-2xl border transition-all duration-300",
+          searchFocus
+            ? "border-primary/40 orange-glow"
+            : "border-border shadow-sm hover:border-border/80 hover:shadow-md"
         )}
       >
-        <div className="absolute top-0 left-0 flex items-center h-full pl-6">
+        <div className="flex items-center gap-3 px-5 py-4">
           <Sparkles
-            className={cn("h-6 w-6 transition-colors duration-300", searchFocus ? "text-primary" : "text-muted-foreground")}
+            className={cn(
+              "h-5 w-5 flex-shrink-0 transition-colors duration-300",
+              searchFocus || value ? "text-primary" : "text-muted-foreground"
+            )}
           />
-        </div>
-        <Input
-          placeholder="e.g., 'Find me a Tiktok fitness influencer in LA with over 100k followers'"
-          className="w-full h-16 bg-transparent border-0 rounded-full pl-16 pr-24 text-base focus:ring-0"
-          onFocus={() => setSearchFocus(true)}
-          onBlur={() => setSearchFocus(false)}
-        />
-        <div className="absolute top-0 right-0 flex items-center h-full pr-3">
-          <Button className="h-12 w-12 rounded-full bg-primary hover:bg-primary/90">
-            <Search className="h-6 w-6 text-primary-foreground" />
+          <input
+            value={value}
+            onChange={(e) => setValue(e.target.value)}
+            placeholder="Find a TikTok fitness creator in LA with 100k+ followers..."
+            className="flex-1 bg-transparent border-0 outline-none text-base text-foreground placeholder:text-muted-foreground/60"
+            onFocus={() => setSearchFocus(true)}
+            onBlur={() => setSearchFocus(false)}
+          />
+          <Button
+            className="flex-shrink-0 bg-primary hover:bg-primary/90 text-white rounded-xl h-10 px-5 font-medium gap-1.5"
+          >
+            Search
+            <ArrowRight className="h-4 w-4" />
           </Button>
         </div>
-      </motion.div>
+        <div className="px-5 pb-3 flex gap-2 flex-wrap">
+          {["Fitness on TikTok", "Tech YouTubers", "Food bloggers 50k+"].map((chip) => (
+            <button
+              key={chip}
+              onClick={() => setValue(chip)}
+              className="text-xs text-muted-foreground bg-muted hover:bg-accent hover:text-primary rounded-full px-3 py-1 transition-colors"
+            >
+              {chip}
+            </button>
+          ))}
+        </div>
+      </div>
     </div>
   )
-} 
+}
