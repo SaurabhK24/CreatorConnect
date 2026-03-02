@@ -57,11 +57,16 @@ export default function CreatorCard({ creator }: { creator: Creator }) {
         <div className="flex items-start justify-between mb-4">
           <div className="flex items-center gap-3">
             <div className="relative flex-none">
-              <div className={cn("w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold border border-white/10 overflow-hidden", platformCls.bg, platformCls.text)}>
-                {creator.avatar && creator.avatar !== '/placeholder.svg' ? (
-                  <img src={creator.avatar} alt={creator.name} className="w-full h-full object-cover" />
-                ) : (
-                  initials
+              <div className={cn("w-12 h-12 rounded-full flex items-center justify-center text-sm font-bold border border-white/10 overflow-hidden relative", platformCls.bg, platformCls.text)}>
+                {initials}
+                {creator.avatar && creator.avatar !== '/placeholder.svg' && (
+                  <img
+                    src={creator.avatar}
+                    alt={creator.name}
+                    className="absolute inset-0 w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                    onError={(e) => { e.currentTarget.style.display = 'none' }}
+                  />
                 )}
               </div>
               {creator.engagement > 7 && (
