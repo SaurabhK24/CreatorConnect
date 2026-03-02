@@ -86,6 +86,9 @@
   .glass-effect {
     @apply bg-white/5 backdrop-blur-xl border border-white/[0.07];
   }
+  .light .glass-effect {
+    @apply bg-black/[0.03] border-black/[0.08];
+  }
 
   .card-hover {
     @apply transition-all duration-300;
