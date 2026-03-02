@@ -6,6 +6,7 @@ import { motion } from "framer-motion"
 import { Search, ArrowDownUp, Filter, Flame, ArrowLeft, Loader2, AlertCircle, RefreshCw } from "lucide-react"
 import Link from "next/link"
 import CreatorCard from "@/components/creator-card"
+import CreatorProfileModal from "@/components/creator-profile-modal"
 import type { Creator } from "@/lib/types"
 import {
   discoverByNiche,
@@ -61,6 +62,7 @@ export default function CreatorsPage() {
   const [creators, setCreators] = useState<Creator[]>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [profileUsername, setProfileUsername] = useState<string | null>(null)
 
   const niche = searchParams.get("niche")
   const query = searchParams.get("q")
@@ -289,7 +291,7 @@ export default function CreatorsPage() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: i * 0.04 }}
                   >
-                    <CreatorCard creator={creator} />
+                    <CreatorCard creator={creator} onViewProfile={setProfileUsername} />
                   </motion.div>
                 ))}
               </motion.div>
@@ -318,6 +320,7 @@ export default function CreatorsPage() {
           </>
         )}
       </main>
+      <CreatorProfileModal username={profileUsername} onClose={() => setProfileUsername(null)} />
     </div>
   )
 }

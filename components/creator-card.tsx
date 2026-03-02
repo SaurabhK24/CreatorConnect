@@ -30,7 +30,7 @@ function formatFollowers(count: number | string): string {
   return count.toString()
 }
 
-export default function CreatorCard({ creator }: { creator: Creator }) {
+export default function CreatorCard({ creator, onViewProfile }: { creator: Creator; onViewProfile?: (username: string) => void }) {
   const platformKey = creator.platform.toLowerCase()
   const platformCls = PLATFORM_COLORS[platformKey] ?? { bg: "bg-white/8", text: "text-white/50", border: "border-white/10" }
 
@@ -125,6 +125,14 @@ export default function CreatorCard({ creator }: { creator: Creator }) {
 
       {/* Footer */}
       <div className="mt-auto px-5 py-4 border-t border-white/[0.05] flex gap-2">
+        {onViewProfile && (
+          <button
+            onClick={() => onViewProfile(creator.username)}
+            className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-[#FF4D00]/10 hover:bg-[#FF4D00]/20 border border-[#FF4D00]/20 text-[#FF4D00] text-xs font-medium transition-all"
+          >
+            View Profile
+          </button>
+        )}
         <button className="flex-1 flex items-center justify-center gap-1.5 py-2 rounded-xl bg-white/[0.05] hover:bg-white/[0.09] border border-white/[0.07] text-white/50 hover:text-white/80 text-xs font-medium transition-all">
           <MessageSquare className="h-3.5 w-3.5" />
           Contact
