@@ -2,6 +2,8 @@
 
 import CreatorCard from "./creator-card"
 import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { ArrowRight } from "lucide-react"
 
 export const creators = [
   {
@@ -13,8 +15,7 @@ export const creators = [
     followers: 125000,
     engagement: 3.2,
     categories: ["Fashion", "Lifestyle"],
-    description:
-      "Fashion and lifestyle content creator based in NYC. Sharing daily outfit inspirations and lifestyle tips.",
+    description: "Fashion and lifestyle content creator based in NYC. Sharing daily outfit inspirations and lifestyle tips.",
   },
   {
     id: 2,
@@ -76,16 +77,21 @@ export const creators = [
 export default function ResultsSection() {
   return (
     <div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {creators.slice(0, 3).map((creator) => (
           <CreatorCard key={creator.id} creator={creator} />
         ))}
       </div>
-      <div className="mt-8 text-center">
+
+      <div className="mt-8 flex justify-center">
         <Link href="/creators" passHref>
-          <button className="text-sm text-primary flex items-center hover:text-primary/80 transition-colors duration-200 mx-auto">
-            View all
-          </button>
+          <Button
+            variant="outline"
+            className="rounded-full border-white/10 hover:border-orange-500/40 hover:bg-orange-500/[0.08] hover:text-orange-400 text-muted-foreground transition-all duration-200 gap-2"
+          >
+            View all creators
+            <ArrowRight className="h-4 w-4" />
+          </Button>
         </Link>
       </div>
     </div>
