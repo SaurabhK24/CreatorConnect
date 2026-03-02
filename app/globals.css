@@ -75,7 +75,7 @@
 
 @layer components {
   .animate-in {
-    animation: animateIn 0.4s cubic-bezier(0.2, 0.0, 0, 1.0);
+    animation: animateIn 0.4s cubic-bezier(0.2, 0.0, 0, 1.0) both;
   }
 
   .animate-pulse-slow {

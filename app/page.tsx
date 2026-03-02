@@ -21,9 +21,12 @@ export default function Home() {
               size="sm"
               variant="outline"
               className="rounded-full border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 hover:text-orange-400 transition-all duration-200 hidden sm:flex"
+              asChild
             >
-              Get Started
-              <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+              <a href="#search">
+                Get Started
+                <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+              </a>
             </Button>
           </div>
         </div>
@@ -31,20 +34,20 @@ export default function Home() {
 
       <main className="container mx-auto px-4">
         {/* Hero section */}
-        <div className="relative flex flex-col items-center pt-16 pb-12 sm:pt-24 sm:pb-16 overflow-hidden">
+        <div className="relative flex flex-col items-center pt-16 pb-12 sm:pt-24 sm:pb-16">
           {/* Background dot grid */}
           <div className="absolute inset-0 dot-grid -z-10" />
           {/* Ambient glow orb */}
           <div className="glow-orb top-0 left-1/2 -translate-x-1/2 -z-10" />
 
           {/* Eyebrow label */}
-          <div className="flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-orange-500/20 bg-orange-500/5 text-orange-400 text-xs font-medium tracking-wide uppercase animate-in">
+          <div className="flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-orange-500/20 bg-orange-500/5 text-orange-400 text-xs font-medium tracking-wide uppercase animate-in" style={{ animationDelay: '0ms' }}>
             <Flame className="h-3.5 w-3.5" />
             Creator Discovery Platform
           </div>
 
           {/* Main heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-center leading-[1.1] mb-6 animate-in max-w-4xl">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-center leading-[1.1] mb-6 animate-in max-w-4xl" style={{ animationDelay: '100ms' }}>
             Find the{" "}
             <span className="text-gradient">perfect creators</span>
             <br />
@@ -52,17 +55,17 @@ export default function Home() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto text-center mb-10 animate-in leading-relaxed">
+          <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto text-center mb-10 animate-in leading-relaxed" style={{ animationDelay: '200ms' }}>
             Connect with influential content creators who align with your brand values and reach your target audience.
           </p>
 
           {/* Search */}
-          <div className="w-full flex justify-center mb-10 animate-in">
+          <div id="search" className="w-full flex justify-center mb-10 animate-in" style={{ animationDelay: '280ms' }}>
             <SearchSection />
           </div>
 
           {/* Social proof chips */}
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 animate-in">
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 animate-in" style={{ animationDelay: '360ms' }}>
             {[
               { icon: Users, label: "2,400+ Creators" },
               { icon: Layers, label: "12 Platforms" },
@@ -100,7 +103,7 @@ export default function Home() {
 
       <footer className="border-t border-white/[0.06] py-8 bg-background">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
-          <p>© 2025 CreatorConnect. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} CreatorConnect. All rights reserved.</p>
         </div>
       </footer>
 
