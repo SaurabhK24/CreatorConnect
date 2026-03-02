@@ -15,27 +15,44 @@ export default function GptSearch() {
       <motion.div
         layout
         className={cn(
-          "relative glass-effect rounded-full shadow-lg transition-all duration-300",
-          searchFocus ? "shadow-primary/20" : "",
+          "relative rounded-full transition-all duration-300",
+          "bg-white/[0.04] border backdrop-blur-xl",
+          searchFocus
+            ? "border-orange-500/40 shadow-[0_0_0_4px_rgba(249,115,22,0.12)]"
+            : "border-white/[0.08] shadow-lg",
         )}
       >
-        <div className="absolute top-0 left-0 flex items-center h-full pl-6">
+        {/* Left icon */}
+        <div className="absolute top-0 left-0 flex items-center h-full pl-5">
           <Sparkles
-            className={cn("h-6 w-6 transition-colors duration-300", searchFocus ? "text-primary" : "text-muted-foreground")}
+            className={cn(
+              "h-5 w-5 transition-all duration-300",
+              searchFocus ? "text-orange-400 scale-110" : "text-muted-foreground",
+            )}
           />
         </div>
+
+        {/* Input */}
         <Input
-          placeholder="e.g., 'Find me a Tiktok fitness influencer in LA with over 100k followers'"
-          className="w-full h-16 bg-transparent border-0 rounded-full pl-16 pr-24 text-base focus:ring-0"
+          placeholder="e.g., 'Find me a TikTok fitness influencer in LA with 100k+ followers'"
+          className="w-full h-16 bg-transparent border-0 rounded-full pl-14 pr-20 text-base focus-visible:ring-0 focus-visible:ring-offset-0 text-foreground placeholder:text-muted-foreground/60"
           onFocus={() => setSearchFocus(true)}
           onBlur={() => setSearchFocus(false)}
         />
-        <div className="absolute top-0 right-0 flex items-center h-full pr-3">
-          <Button className="h-12 w-12 rounded-full bg-primary hover:bg-primary/90">
-            <Search className="h-6 w-6 text-primary-foreground" />
+
+        {/* Search button */}
+        <div className="absolute top-0 right-0 flex items-center h-full pr-2.5">
+          <Button
+            className={cn(
+              "h-11 w-11 rounded-full transition-all duration-200",
+              "bg-orange-500 hover:bg-orange-500/90 text-white",
+              searchFocus && "shadow-[0_0_16px_rgba(249,115,22,0.4)]",
+            )}
+          >
+            <Search className="h-4 w-4" />
           </Button>
         </div>
       </motion.div>
     </div>
   )
-} 
+}
