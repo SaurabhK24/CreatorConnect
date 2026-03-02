@@ -389,7 +389,7 @@ function FindCreatorsSection() {
               placeholder="Search creators by name, niche, username…"
               value={findQuery}
               onChange={(e) => setFindQuery(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleFindSearch()}
+              onKeyDown={(e) => e.key === "Enter" && !findLoading && handleFindSearch()}
               className="w-full pl-11 pr-4 py-3 bg-[#111] border border-white/10 rounded-xl text-white text-sm placeholder-white/25 outline-none focus:border-[#FF4D00]/40 transition-all"
             />
           </div>

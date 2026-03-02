@@ -116,9 +116,10 @@ export async function searchByHashtag(hashtag: string, resultsPerPage = 30): Pro
 }
 
 /** GET /api/creators/:id/profile — creator profile + recent videos with DB cache */
-export async function getCreatorProfile(username: string): Promise<CreatorProfileData> {
+export async function getCreatorProfile(username: string, signal?: AbortSignal): Promise<CreatorProfileData> {
   const res = await apiFetch<CreatorProfileData>(
     `/api/creators/${encodeURIComponent(username)}/profile`,
+    signal ? { signal } : undefined,
   )
   return res.data
 }

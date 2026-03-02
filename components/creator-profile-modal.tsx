@@ -30,7 +30,7 @@ export default function CreatorProfileModal({ username, onClose }: Props) {
     setError(null)
     setData(null)
 
-    getCreatorProfile(username)
+    getCreatorProfile(username, controller.signal)
       .then((result) => {
         if (!controller.signal.aborted) setData(result)
       })
