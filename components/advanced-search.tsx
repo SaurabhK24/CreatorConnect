@@ -79,7 +79,7 @@ export default function AdvancedSearch() {
                     <SearchIcon
                       className={cn(
                         "h-5 w-5 transition-colors duration-200",
-                        searchFocus ? "text-primary" : "text-muted-foreground",
+                        searchFocus ? "text-orange-400" : "text-muted-foreground",
                       )}
                     />
                   </SelectValue>
@@ -198,11 +198,11 @@ export default function AdvancedSearch() {
                       max={1000000}
                       step={10000}
                       onValueChange={setFollowerRange}
-                      className="[&_[role=slider]]:h-5 [&_[role=slider]]:w-5 [&_[role=slider]]:bg-primary"
+                      className="[&_[role=slider]]:h-5 [&_[role=slider]]:w-5 [&_[role=slider]]:bg-orange-500"
                     />
                     <div className="flex justify-between mt-3 text-sm text-muted-foreground">
                       <span>0</span>
-                      <span className="font-medium text-primary">{followerRange[0].toLocaleString()} followers</span>
+                      <span className="font-medium text-orange-400">{followerRange[0].toLocaleString()} followers</span>
                       <span>1M+</span>
                     </div>
                   </div>
