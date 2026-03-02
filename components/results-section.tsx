@@ -1,5 +1,3 @@
-"use client"
-
 import CreatorCard from "./creator-card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
@@ -87,7 +85,7 @@ export default function ResultsSection() {
         <Link href="/creators" passHref>
           <Button
             variant="outline"
-            className="rounded-full border-white/10 hover:border-orange-500/40 hover:bg-orange-500/[0.08] hover:text-orange-400 text-muted-foreground transition-all duration-200 gap-2"
+            className="rounded-full border-white/10 hover:border-orange-500/40 hover:bg-orange-500/10 hover:text-orange-400 text-muted-foreground transition-all duration-200 gap-2"
           >
             View all creators
             <ArrowRight className="h-4 w-4" />
