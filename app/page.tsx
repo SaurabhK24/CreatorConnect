@@ -1,55 +1,104 @@
 import SearchSection from "@/components/search-section"
 import ResultsSection from "@/components/results-section"
-import { MoveUpRight, Flame } from "lucide-react"
+import { Flame, ArrowRight, Users, Layers, Building2 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import OnboardingModal from "@/components/onboarding/onboarding-modal"
-import FeatureTooltip from "@/components/onboarding/feature-tooltip"
+import { Button } from "@/components/ui/button"
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-secondary/50 to-background dark:from-background dark:to-background">
-      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-br from-primary/5 via-orange-500/5 to-amber-500/5 -z-10 dark:from-primary/10 dark:via-orange-500/5 dark:to-amber-500/5"></div>
-
-      <header className="border-b border-border/40 backdrop-blur-md sticky top-0 z-50">
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="border-b border-white/[0.07] backdrop-blur-md sticky top-0 z-50 bg-background/80">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <div className="flex items-center gap-2">
-            <Flame className="h-5 w-5 text-primary" />
+            <Flame className="h-5 w-5 text-orange-500" />
             <span className="font-bold text-xl text-gradient">CreatorConnect</span>
           </div>
-          <ThemeToggle />
+          <div className="flex items-center gap-3">
+            <ThemeToggle />
+            <Button
+              size="sm"
+              variant="outline"
+              className="rounded-full border-white/10 hover:border-orange-500/50 hover:bg-orange-500/10 hover:text-orange-400 transition-all duration-200 hidden sm:flex"
+            >
+              Get Started
+              <ArrowRight className="h-3.5 w-3.5 ml-1.5" />
+            </Button>
+          </div>
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 sm:py-12 flex flex-col items-center">
-        <div className="w-full max-w-3xl text-center mb-8 sm:mb-12 animate-in">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 tracking-tight">
-            Find the <span className="text-gradient">perfect creators</span> for your brand
-          </h1>
-          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
-            Connect with influential content creators who align with your brand values and can help you reach your
-            target audience.
-          </p>
-        </div>
+      <main className="container mx-auto px-4">
+        {/* Hero section */}
+        <div className="relative flex flex-col items-center pt-16 pb-12 sm:pt-24 sm:pb-16 overflow-hidden">
+          {/* Background dot grid */}
+          <div className="absolute inset-0 dot-grid -z-10" />
+          {/* Ambient glow orb */}
+          <div className="glow-orb top-0 left-1/2 -translate-x-1/2 -z-10" />
 
-        <div className="w-full flex flex-col items-center space-y-8 sm:space-y-12">
-          <div className="w-full flex justify-center">
+          {/* Eyebrow label */}
+          <div className="flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full border border-orange-500/20 bg-orange-500/5 text-orange-400 text-xs font-medium tracking-wide uppercase animate-in">
+            <Flame className="h-3.5 w-3.5" />
+            Creator Discovery Platform
+          </div>
+
+          {/* Main heading */}
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-center leading-[1.1] mb-6 animate-in max-w-4xl">
+            Find the{" "}
+            <span className="text-gradient">perfect creators</span>
+            <br />
+            for your brand
+          </h1>
+
+          {/* Subtitle */}
+          <p className="text-base sm:text-lg text-muted-foreground max-w-xl mx-auto text-center mb-10 animate-in leading-relaxed">
+            Connect with influential content creators who align with your brand values and reach your target audience.
+          </p>
+
+          {/* Search */}
+          <div className="w-full flex justify-center mb-10 animate-in">
             <SearchSection />
           </div>
 
-          <div className="w-full max-w-6xl">
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl sm:text-2xl font-semibold flex items-center gap-2">
-                <Flame className="h-5 w-5 text-primary" />
+          {/* Social proof chips */}
+          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-6 animate-in">
+            {[
+              { icon: Users, label: "2,400+ Creators" },
+              { icon: Layers, label: "12 Platforms" },
+              { icon: Building2, label: "500+ Brands" },
+            ].map(({ icon: Icon, label }) => (
+              <div
+                key={label}
+                className="flex items-center gap-2 text-sm text-muted-foreground"
+              >
+                <Icon className="h-4 w-4 text-orange-500/70" />
+                <span>{label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Divider */}
+        <div className="border-t border-white/[0.06] mb-12" />
+
+        {/* Top Creators */}
+        <div className="pb-16">
+          <div className="flex items-center justify-between mb-8">
+            <div>
+              <p className="text-xs font-semibold tracking-widest text-orange-500/80 uppercase mb-1">Trending</p>
+              <h2 className="text-2xl sm:text-3xl font-bold flex items-center gap-2">
+                <Flame className="h-5 w-5 text-orange-500" />
                 Top Creators
               </h2>
             </div>
-
-            <ResultsSection />
           </div>
+
+          <ResultsSection />
         </div>
       </main>
 
-      <footer className="border-t border-border/40 py-6 sm:py-8 mt-12 bg-background/50 dark:bg-card/50 backdrop-blur-sm">
+      <footer className="border-t border-white/[0.06] py-8 bg-background">
         <div className="container mx-auto px-4 text-center text-sm text-muted-foreground">
           <p>© 2025 CreatorConnect. All rights reserved.</p>
         </div>
