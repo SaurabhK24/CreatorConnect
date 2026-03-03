@@ -43,12 +43,12 @@ export default function CreatorCard({ creator, onViewProfile }: { creator: Creat
           ? "text-amber-400"
           : "text-white/50"
 
-  const initials = creator.name
+  const initials = (creator.name ?? "?")
     .split(" ")
     .map((w) => w[0])
     .join("")
     .slice(0, 2)
-    .toUpperCase()
+    .toUpperCase() || "?"
 
   return (
     <div className="group bg-[#0D0D0D] border border-white/[0.06] rounded-2xl overflow-hidden flex flex-col hover:-translate-y-1 hover:border-white/12 transition-all duration-300">
